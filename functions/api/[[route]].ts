@@ -5,39 +5,38 @@
 export async function onRequest(context) {
   const url = new URL(context.request.url);
 
+  // Log request details
+  console.log("Request URL:", url.toString());
+  console.log("Request method:", context.request.method);
+  console.log(
+    "Request headers:",
+    JSON.stringify(Object.fromEntries(context.request.headers), null, 2),
+  );
+
   // Check if the request path starts with /api/
   if (url.pathname.startsWith("/api/")) {
-    // Replace this with your backend URL
-    const backendUrl = "https://spiral-backend.jadechip.workers.dev";
-
-    // Construct the new URL by replacing the origin
-    const newUrl = backendUrl + url.pathname + url.search;
-
-    // Create a new request with the same method, headers, and body
-    const newRequest = new Request(newUrl, {
+    // Instead of redirecting or proxying, return diagnostic information
+    const diagnosticInfo = {
+      message: "API request intercepted",
+      originalUrl: url.toString(),
       method: context.request.method,
-      headers: context.request.headers,
-      body: context.request.body,
-    });
+      headers: Object.fromEntries(context.request.headers),
+      pathname: url.pathname,
+      search: url.search,
+    };
 
-    // Fetch the request from the backend
-    const response = await fetch(newRequest);
-
-    // Create a new response with the backend's response, but allow CORS
-    return new Response(response.body, {
-      status: response.status,
-      statusText: response.statusText,
+    return new Response(JSON.stringify(diagnosticInfo, null, 2), {
+      status: 200,
       headers: {
-        ...response.headers,
-        "Access-Control-Allow-Origin": url.origin,
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-        "Access-Control-Allow-Headers":
-          "Content-Type, Authorization, x-auth-return-redirect",
-        "Access-Control-Allow-Credentials": "true",
+        "Access-Control-Allow-Headers": "*",
       },
     });
   }
 
-  // If the path doesn't start with /api/, pass the request through
+  // If the path doesn't start with /api/, log and pass through
+  console.log("Non-API request, passing through");
   return fetch(context.request);
 }
