@@ -8,7 +8,7 @@ export async function onRequest(context) {
   // Check if the request path starts with /api/
   if (url.pathname.startsWith("/api/")) {
     // Replace this with your backend URL
-    const backendUrl = "https://your-backend-url.com";
+    const backendUrl = "https://spiral-backend.jadechip.workers.dev";
 
     // Construct the new URL by replacing the origin
     const newUrl = backendUrl + url.pathname + url.search;
