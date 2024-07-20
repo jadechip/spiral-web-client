@@ -39,8 +39,4 @@ app.use("/*", async (c, next) => {
   });
 });
 
-// Your other routes and middleware can go here
-// For example:
-app.get("/", (c) => c.text("Hello, World!"));
-
 export default app;
