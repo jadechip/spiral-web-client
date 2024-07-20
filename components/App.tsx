@@ -5,7 +5,7 @@ import Layout from "./layout";
 authConfigManager.setConfig({
   baseUrl: "https://spiral-backend.jadechip.workers.dev",
   basePath: "/api/auth",
-  credentials: "include",
+  credentials: "same-origin",
 });
 
 export default function App() {
