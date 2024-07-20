@@ -15,6 +15,17 @@ import Instagram from "@auth/core/providers/instagram";
 import Credentials from "@auth/core/providers/credentials";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
+import { drizzle } from "drizzle-orm/d1";
+import {
+  users,
+  creators,
+  campaigns,
+  products,
+  contracts,
+  campaignCreators,
+  campaignProducts,
+  contractCampaigns,
+} from "./db/schema";
 
 export type Env = {
   DB: D1Database;
@@ -98,9 +109,28 @@ api.use(
     },
     events: {
       createUser: async ({ user }) => {
-        // This function will be called when a new user is created
-        // You can update the user object in the database here
         console.log("The user object", user);
+
+        if (!user.id) {
+          console.error("User ID is undefined");
+          return;
+        }
+
+        const db = drizzle(c.env.DB);
+
+        try {
+          const result = await db
+            .update(users)
+            .set({
+              userType: "creator" as const, // or "manager"
+            })
+            .where(eq(users.id, user.id))
+            .returning();
+
+          console.log("User updated successfully", result[0]);
+        } catch (error) {
+          console.error("Error updating user:", error);
+        }
       },
     },
     adapter: D1Adapter(c.env.DB),
