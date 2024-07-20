@@ -17,9 +17,11 @@ export default function UserButton() {
       {!session ? (
         <Button
           onClick={() =>
-            signIn("facebook", {
-              userType: "manager",
-            })
+            signIn(
+              "facebook",
+              {}, // options
+              { userType: "manager" },
+            )
           }
         >
           Sign In
