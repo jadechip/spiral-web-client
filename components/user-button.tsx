@@ -15,7 +15,15 @@ export default function UserButton() {
   return (
     <>
       {!session ? (
-        <Button onClick={() => signIn("facebook")}>Sign In</Button>
+        <Button
+          onClick={() =>
+            signIn("facebook", {
+              userType: "manager",
+            })
+          }
+        >
+          Sign In
+        </Button>
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
