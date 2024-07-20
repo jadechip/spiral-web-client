@@ -2,10 +2,10 @@ import ClientExample from "@/components/client-example";
 import { SessionProvider, authConfigManager } from "@hono/auth-js/react";
 import Layout from "./layout";
 
-authConfigManager.setConfig({
-  basePath: "/api/auth",
-  credentials: "include",
-});
+// authConfigManager.setConfig({
+//   basePath: "/api/auth",
+//   credentials: "same-origin",
+// });
 
 export default function App() {
   return (
