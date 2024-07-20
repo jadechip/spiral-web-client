@@ -17,7 +17,6 @@ app.use(
   }),
 );
 
-// Middleware to proxy requests starting with "/api"
 app.use("/*", async (c, next) => {
   const url = new URL(c.req.url);
   console.log("req url", url);
@@ -32,10 +31,23 @@ app.use("/*", async (c, next) => {
       : await c.req.blob(),
   });
 
+  // Create a new headers object from the original response
+  const headers = new Headers(response.headers);
+
+  // Add the custom headers
+  headers.set("Content-Type", "application/json");
+  headers.set(
+    "Access-Control-Allow-Origin",
+    "https://spiral-web-client.pages.dev",
+  );
+  headers.set("Access-Control-Allow-Credentials", "true");
+
+  console.log("response.statusText", response.statusText);
+
   return new Response(response.body, {
     status: response.status,
     statusText: response.statusText,
-    headers: response.headers,
+    headers: headers,
   });
 });
 
