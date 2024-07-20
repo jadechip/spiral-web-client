@@ -109,25 +109,24 @@ api.use(
     },
     events: {
       createUser: async ({ user }) => {
+        // This function will be called when a new user is created
+        // You can update the user object in the database here
         console.log("The user object", user);
-
-        if (!user.id) {
-          console.error("User ID is undefined");
-          return;
-        }
-
-        const db = drizzle(c.env.DB);
+        // This function will be called when a new user is created
+        // You can update the user object in the database here
 
         try {
-          const result = await db
-            .update(users)
+          await c.env.DB.update(users)
             .set({
-              userType: "creator" as const, // or "manager"
+              // Add any additional fields you want to update
+              userType: "creator", // or "manager", depending on your logic
+              // You can also use data from the Facebook profile if needed
+              // For example:
+              // name: user.name,
             })
-            .where(eq(users.id, user.id))
-            .returning();
+            .where(eq(users.id, user.id));
 
-          console.log("User updated successfully", result[0]);
+          console.log("User updated successfully");
         } catch (error) {
           console.error("Error updating user:", error);
         }
