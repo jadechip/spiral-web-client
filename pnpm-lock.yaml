@@ -6,14 +6,14 @@ settings:
 
 dependencies:
   '@auth/core':
-    specifier: ^0.30.0
-    version: 0.30.0
+    specifier: ^0.34.1
+    version: 0.34.1
   '@auth/d1-adapter':
     specifier: ^1.4.1
     version: 1.4.1
   '@hono/auth-js':
-    specifier: ^1.0.7
-    version: 1.0.7(@auth/core@0.30.0)(hono@4.3.4)(react@18.3.1)
+    specifier: ^1.0.10
+    version: 1.0.10(@auth/core@0.34.1)(hono@4.3.4)(react@18.3.1)
   '@radix-ui/react-avatar':
     specifier: ^1.0.4
     version: 1.0.4(@types/react-dom@18.3.0)(@types/react@18.3.1)(react-dom@18.3.1)(react@18.3.1)
@@ -111,29 +111,6 @@ packages:
       '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
     dev: true
-
-  /@auth/core@0.30.0:
-    resolution: {integrity: sha512-8AE4m/nk+4EIiVCJwxZAsJeAQuzpEC8M8768mmKVn60CGDdupKQkVhxbRlm5Qh7eNRCoFFME+0DvtaX2aXrYaA==}
-    peerDependencies:
-      '@simplewebauthn/browser': ^9.0.1
-      '@simplewebauthn/server': ^9.0.2
-      nodemailer: ^6.8.0
-    peerDependenciesMeta:
-      '@simplewebauthn/browser':
-        optional: true
-      '@simplewebauthn/server':
-        optional: true
-      nodemailer:
-        optional: true
-    dependencies:
-      '@panva/hkdf': 1.2.1
-      '@types/cookie': 0.6.0
-      cookie: 0.6.0
-      jose: 5.6.3
-      oauth4webapi: 2.11.1
-      preact: 10.11.3
-      preact-render-to-string: 5.2.3(preact@10.11.3)
-    dev: false
 
   /@auth/core@0.34.1:
     resolution: {integrity: sha512-tuYU2VIbI8rFbkSwP710LmybB2FXJsPN7j3sjRVfN9SXVQBK2ej6LdewQaofpBGp4Mk+cC2UeiGNH0or4tgaeA==}
@@ -1339,15 +1316,15 @@ packages:
     resolution: {integrity: sha512-dWO2pw8hhi+WrXq1YJy2yCuWoL20PddgGaqTgVe4cOS9Q6qklXCiA1tJEqX6BEwRNSCP84/afac9hd4MS+zEUA==}
     dev: false
 
-  /@hono/auth-js@1.0.7(@auth/core@0.30.0)(hono@4.3.4)(react@18.3.1):
-    resolution: {integrity: sha512-WGqJtVd1pwZYz2JpcyNGY4WiQcuK5tllR0cnfY0NwNxcSbCM3Z26khv90F4VoABHICskBrasU3FP4AjZxakfkg==}
+  /@hono/auth-js@1.0.10(@auth/core@0.34.1)(hono@4.3.4)(react@18.3.1):
+    resolution: {integrity: sha512-hnkZzPMHveX2GzX/zS53uP6OqzB6SCtJCaimXdjewCWWiNi4FFtv1jcsca3PV7haiaLKict5JPZWzfMq+t3Bzw==}
     engines: {node: '>=18.4.0'}
     peerDependencies:
       '@auth/core': 0.*
       hono: '>=3.*'
       react: '>=18'
     dependencies:
-      '@auth/core': 0.30.0
+      '@auth/core': 0.34.1
       hono: 4.3.4
       react: 18.3.1
     dev: false
