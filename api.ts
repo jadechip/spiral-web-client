@@ -92,7 +92,7 @@ api.use(
     ],
     callbacks: {
       async signIn({ user, account, profile, email, credentials }) {
-        console.log("req", c.req);
+        console.log("req", JSON.stringify(request, getCircularReplacer(), 2));
         console.log("signIn", user, account, profile, email, credentials);
         return true;
       },
