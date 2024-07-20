@@ -3,39 +3,57 @@
 // export const onRequest = handle(app)
 
 export async function onRequest(context) {
-  const url = new URL(context.request.url);
-  url.hostname = "spiral-backend.jadechip.workers.dev";
-  url.protocol = "https";
+  try {
+    const url = new URL(context.request.url);
+    url.hostname = "spiral-backend.jadechip.workers.dev";
+    url.protocol = "https";
 
-  // Copy the request headers
-  const headers = new Headers(context.request.headers);
+    // Copy the request headers
+    const headers = new Headers(context.request.headers);
 
-  // Create a new request with the modified URL
-  const request = new Request(url.toString(), {
-    method: context.request.method,
-    headers: headers,
-    body:
-      context.request.method !== "GET" && context.request.method !== "HEAD"
-        ? context.request.body
-        : null,
-  });
+    // Create a new request with the modified URL
+    const request = new Request(url.toString(), {
+      method: context.request.method,
+      headers: headers,
+      body:
+        context.request.method !== "GET" && context.request.method !== "HEAD"
+          ? context.request.body
+          : null,
+    });
 
-  const response = await fetch(request);
+    const response = await fetch(request);
 
-  // Copy the response headers
-  const responseHeaders = new Headers(response.headers);
+    // Log the status and headers for debugging
+    console.log("Response Status:", response.status);
+    console.log("Response Headers:", JSON.stringify([...response.headers]));
 
-  // Check if the response content type is JSON and add the header if necessary
-  if (responseHeaders.get("content-type")?.includes("application/json")) {
-    responseHeaders.set("content-type", "application/json");
+    // Check the content type of the response
+    const contentType = response.headers.get("content-type") || "";
+
+    // Return the response as JSON if the content type is JSON
+    if (contentType.includes("application/json")) {
+      const jsonResponse = await response.json();
+      return new Response(JSON.stringify(jsonResponse), {
+        status: response.status,
+        statusText: response.statusText,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+
+    // Fallback to text response if content type is not JSON
+    const textResponse = await response.text();
+    return new Response(textResponse, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: {
+        "Content-Type": contentType,
+      },
+    });
+  } catch (error) {
+    // Log any errors
+    console.error("Error:", error);
+    return new Response("Internal Server Error", { status: 500 });
   }
-
-  const body = await response.text();
-
-  // Return the response with the copied headers
-  return new Response(body, {
-    status: response.status,
-    statusText: response.statusText,
-    headers: responseHeaders,
-  });
 }
