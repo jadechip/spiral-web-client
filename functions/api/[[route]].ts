@@ -1,6 +1,6 @@
 import { handle } from "hono/cloudflare-pages";
-import app from "@/proxy";
-export const onRequest = handle(app);
+import api from "@/api";
+export const onRequest = handle(api);
 
 // export async function onRequest(context) {
 //   // Create a new URL object from the original request URL
