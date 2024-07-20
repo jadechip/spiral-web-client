@@ -15,7 +15,6 @@ import Instagram from "@auth/core/providers/instagram";
 import Credentials from "@auth/core/providers/credentials";
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
-import { drizzle } from "drizzle-orm/d1";
 import {
   users,
   creators,
@@ -93,6 +92,7 @@ api.use(
     ],
     callbacks: {
       async signIn({ user, account, profile, email, credentials }) {
+        console.log("req", c.req);
         console.log("signIn", user, account, profile, email, credentials);
         return true;
       },
