@@ -10,6 +10,7 @@ export async function onRequest(context) {
 
     // Copy the request headers
     const headers = new Headers(context.request.headers);
+    headers.set("Origin", "https://spiral-web-client.pages.dev"); // Set the Origin header
 
     // Create a new request with the modified URL
     const request = new Request(url.toString(), {
@@ -19,6 +20,7 @@ export async function onRequest(context) {
         context.request.method !== "GET" && context.request.method !== "HEAD"
           ? context.request.body
           : null,
+      credentials: "include", // Ensure credentials are included
     });
 
     const response = await fetch(request);
@@ -30,25 +32,36 @@ export async function onRequest(context) {
     // Check the content type of the response
     const contentType = response.headers.get("content-type") || "";
 
+    // Log the content type
+    console.log("Content Type:", contentType);
+
     // Return the response as JSON if the content type is JSON
     if (contentType.includes("application/json")) {
       const jsonResponse = await response.json();
+      console.log("JSON Response:", JSON.stringify(jsonResponse));
       return new Response(JSON.stringify(jsonResponse), {
         status: response.status,
         statusText: response.statusText,
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "https://spiral-web-client.pages.dev", // Allow the origin
+          "Access-Control-Allow-Credentials": "true", // Allow credentials
         },
       });
     }
 
-    // Fallback to text response if content type is not JSON
+    // Log the response text for debugging
     const textResponse = await response.text();
+    console.log("Text Response:", textResponse);
+
+    // Fallback to text response if content type is not JSON
     return new Response(textResponse, {
       status: response.status,
       statusText: response.statusText,
       headers: {
         "Content-Type": contentType,
+        "Access-Control-Allow-Origin": "https://spiral-web-client.pages.dev", // Allow the origin
+        "Access-Control-Allow-Credentials": "true", // Allow credentials
       },
     });
   } catch (error) {
