@@ -19,8 +19,7 @@ export default function UserButton() {
           onClick={() =>
             signIn(
               "facebook",
-              {}, // options
-              { userType: "manager" },
+              { userType: "manager" }, // options
             )
           }
         >
