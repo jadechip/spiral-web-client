@@ -101,6 +101,7 @@ api.use(
         return url;
       },
       async session({ session, user, token }) {
+        console.log("session req", JSON.stringify(c.req));
         return session;
       },
       async jwt({ token, user, account, profile, isNewUser }) {
