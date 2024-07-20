@@ -45,7 +45,7 @@ api.use(
       Resend({
         // If your environment variable is named differently than default
         apiKey: c.env.AUTH_RESEND_KEY,
-        // from: "no-reply@company.com",
+        from: "no-reply@company.com",
       }),
       Facebook({
         clientId: c.env.FACEBOOK_CLIENT_ID,
@@ -94,6 +94,13 @@ api.use(
       },
       async jwt({ token, user, account, profile, isNewUser }) {
         return token;
+      },
+    },
+    events: {
+      createUser: async ({ user }) => {
+        // This function will be called when a new user is created
+        // You can update the user object in the database here
+        console.log("The user object", user);
       },
     },
     adapter: D1Adapter(c.env.DB),
